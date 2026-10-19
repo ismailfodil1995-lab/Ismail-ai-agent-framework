@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ismail Smart Agent V2.1 — Enterprise Mission Control</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h1 class="brand-title">ISMAIL SMART AGENT</h1>
+          <span class="brand-badge">V2.1 ENTERPRISE</span>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:1px;">Autonomous Multi-Engine AI Orchestration Framework</p>
+      </div>
+    </div>
+
+    <div class="header-status-group">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span id="headerToolsStatus">29 Tools Online</span>
+      </div>
+
+      <div class="guardrails-select-wrap">
+        <span style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase;">Guardrails Policy:</span>
+        <select id="guardrailsModeSelect" onchange="changeGuardrailsMode(this.value)">
+          <option value="auto">Auto (Audit)</option>
+          <option value="strict">Strict (Lockdown)</option>
+          <option value="ask">Ask (HITL)</option>
+        </select>
+      </div>
+
+      <a href="/docs" target="_blank" class="api-key-btn">Swagger API Docs ↗</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- 6 Core Engines Matrix Cards -->
+    <section class="engine-matrix">
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">Planner</span>
+          <span class="engine-icon">🧠</span>
+        </div>
+        <span class="engine-value">Sparse Dynamic</span>
+        <span class="engine-subtext">Zero-Hardcoding • 70% Token Cut</span>
+      </div>
+
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">Executor</span>
+          <span class="engine-icon">⚡</span>
+        </div>
+        <span class="engine-value">Async & Parallel</span>
+        <span class="engine-subtext">Gather Concurrent • Structured Logs</span>
+      </div>
+
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">Guardrails</span>
+          <span class="engine-icon">🛡️</span>
+        </div>
+        <span class="engine-value" id="cardGuardrailsMode">Auto-Audit</span>
+        <span class="engine-subtext" id="cardAuditCount">0 Policy Checks</span>
+      </div>
+
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">Reflection</span>
+          <span class="engine-icon">🔄</span>
+        </div>
+        <span class="engine-value">Self-Healing</span>
+        <span class="engine-subtext">Heuristic + LLM Auto-Repair</span>
+      </div>
+
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">DAG Engine</span>
+          <span class="engine-icon">🕸️</span>
+        </div>
+        <span class="engine-value">Topological</span>
+        <span class="engine-subtext">Cycle-Proof Graph • State Context</span>
+      </div>
+
+      <div class="engine-card">
+        <div class="engine-card-header">
+          <span class="engine-name">Tools Registry</span>
+          <span class="engine-icon">🧰</span>
+        </div>
+        <span class="engine-value" id="cardToolsCount">29 Tools</span>
+        <span class="engine-subtext">DuckDB, Excel, PDF, OCR, Web</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab-btn active" onclick="switchTab('market-intel-tab')">
+        <span>🌐</span> Market & Competitor Intelligence (DAG)
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('guardrails-reflection-tab')">
+        <span>🛡️</span> Cyber Guardrails & Self-Healing
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('prompt-studio-tab')">
+        <span>💬</span> Interactive Prompt Studio
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('artifacts-vault-tab')">
+        <span>📂</span> Deliverables Vault (<span id="vaultBadgeCount">0</span>)
+      </button>
+    </nav>
+
+    <!-- TAB 1: Market Intelligence DAG Pipeline -->
+    <section id="market-intel-tab" class="tab-content active">
+      <div class="scenario-panel">
+        <div class="scenario-header">
+          <div class="scenario-title-area">
+            <h2><span>🌐</span> Autonomous Market & Competitor Intelligence Pipeline</h2>
+            <p>End-to-End Autonomous Workflow: Web Search ➔ Deep Scraping ➔ JSON Schema Extraction ➔ Formatted Excel ➔ n8n Webhook</p>
+          </div>
+          <button id="btnRunMarketDag" class="btn-primary" onclick="runMarketIntelDAG()">
+            <span>🚀</span> Launch Autonomous Pipeline
+          </button>
+        </div>
+
+        <!-- Pipeline Parameter Inputs -->
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Research Sector / Competitor Query</label>
+            <input type="text" id="inputDagQuery" class="form-input" value="Enterprise Autonomous AI Agent Frameworks 2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Intel Source URL</label>
+            <input type="text" id="inputDagUrl" class="form-input" value="https://news.ycombinator.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Output Excel Workbook Name</label>
+            <input type="text" id="inputDagExcel" class="form-input" value="enterprise_market_intel.xlsx">
+          </div>
+        </div>
+
+        <!-- Visual DAG Node Flowchart -->
+        <div class="dag-visualization-container">
+          <div class="dag-vis-header">
+            <span class="dag-vis-title"><span>🕸️</span> Visual DAG Execution Graph (Topological Resolution)</span>
+            <span id="dagOverallTime" style="font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--accent-cyan);">Idle</span>
+          </div>
+
+          <div class="dag-nodes-flow">
+            <!-- Node 1 -->
+            <div class="dag-node-card pending" id="nodeCard-intel_search">
+              <div class="dag-node-top">
+                <span class="dag-node-id">Node #1</span>
+                <span class="dag-node-status-icon" id="icon-intel_search">⚪</span>
+              </div>
+              <span class="dag-node-title">Web Intelligence</span>
+              <span class="dag-node-tool">search_web</span>
+              <span class="dag-node-time" id="time-intel_search">Pending</span>
+            </div>
+
+            <div class="dag-arrow">➔</div>
+
+            <!-- Node 2 -->
+            <div class="dag-node-card pending" id="nodeCard-content_scrape">
+              <div class="dag-node-top">
+                <span class="dag-node-id">Node #2</span>
+                <span class="dag-node-status-icon" id="icon-content_scrape">⚪</span>
+              </div>
+              <span class="dag-node-title">Deep Scraper</span>
+              <span class="dag-node-tool">scrape_web_page</span>
+              <span class="dag-node-time" id="time-content_scrape">Pending</span>
+            </div>
+
+            <div class="dag-arrow">➔</div>
+
+            <!-- Node 3 -->
+            <div class="dag-node-card pending" id="nodeCard-json_structuring">
+              <div class="dag-node-top">
+                <span class="dag-node-id">Node #3</span>
+                <span class="dag-node-status-icon" id="icon-json_structuring">⚪</span>
+              </div>
+              <span class="dag-node-title">JSON Structuring</span>
+              <span class="dag-node-tool">extract_structured_json</span>
+              <span class="dag-node-time" id="time-json_structuring">Pending</span>
+            </div>
+
+            <div class="dag-arrow">➔</div>
+
+            <!-- Node 4 -->
+            <div class="dag-node-card pending" id="nodeCard-excel_export">
+              <div class="dag-node-top">
+                <span class="dag-node-id">Node #4</span>
+                <span class="dag-node-status-icon" id="icon-excel_export">⚪</span>
+              </div>
+              <span class="dag-node-title">Excel Dossier</span>
+              <span class="dag-node-tool">generate_excel_report</span>
+              <span class="dag-node-time" id="time-excel_export">Pending</span>
+            </div>
+
+            <div class="dag-arrow">➔</div>
+
+            <!-- Node 5 -->
+            <div class="dag-node-card pending" id="nodeCard-n8n_dispatch">
+              <div class="dag-node-top">
+                <span class="dag-node-id">Node #5</span>
+                <span class="dag-node-status-icon" id="icon-n8n_dispatch">⚪</span>
+              </div>
+              <span class="dag-node-title">Enterprise Webhook</span>
+              <span class="dag-node-tool">n8n_orchestrator</span>
+              <span class="dag-node-time" id="time-n8n_dispatch">Pending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Output Preview & Deliverables -->
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-secondary); text-transform:uppercase;">Extracted JSON Intelligence & Deliverables</span>
+            <a id="btnDownloadExcelDag" href="/api/demo/download/enterprise_market_intel.xlsx" style="display:none;" class="btn-primary" style="padding:6px 14px; font-size:0.85rem;">
+              <span>📊</span> Download Generated Excel Workbook
+            </a>
+          </div>
+          <div class="result-box" id="dagOutputViewer">// Pipeline results and structured JSON will display here upon execution...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Guardrails & Self-Healing Resilience -->
+    <section id="guardrails-reflection-tab" class="tab-content">
+      <div class="scenario-panel">
+        <div class="scenario-header">
+          <div class="scenario-title-area">
+            <h2><span>🛡️</span> Active Cyber Defense & Zero-Downtime Self-Healing</h2>
+            <p>Live verification of enterprise security policies (Strict/Auto/Ask) and the Reflection Engine's automatic crash recovery.</p>
+          </div>
+        </div>
+
+        <div class="duo-grid">
+          <!-- Left: Guardrails Security Gate -->
+          <div class="duo-card">
+            <div class="duo-card-header">
+              <span style="font-size:1.4rem;">🛡️</span>
+              <div>
+                <h3>Guardrails Gateway Barrier</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Intercepts unauthorized code, OS mutations, or security policy violations</p>
+              </div>
+            </div>
+
+            <div class="action-btn-group">
+              <button class="btn-secondary" onclick="testGuardrails('safe')">Test Safe Tool (read_system_file)</button>
+              <button class="btn-danger" onclick="testGuardrails('critical')">Simulate Unauthorized Code Execution</button>
+            </div>
+
+            <div class="result-box" id="guardrailsTestOutput">// Guardrails policy interceptor output will appear here...</div>
+          </div>
+
+          <!-- Right: Reflection Self-Healing -->
+          <div class="duo-card">
+            <div class="duo-card-header">
+              <span style="font-size:1.4rem;">🔄</span>
+              <div>
+                <h3>Self-Healing Reflection Loop</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Auto-diagnoses malformed URLs, broken file extensions, and resolves runtime exceptions</p>
+              </div>
+            </div>
+
+            <div class="action-btn-group">
+              <button class="btn-primary" onclick="testSelfHealing()">Trigger Malformed Input Stress Test</button>
+            </div>
+
+            <div class="result-box" id="selfHealingOutput">// Reflection Engine diagnostic and patch trace will appear here...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Interactive Prompt Studio -->
+    <section id="prompt-studio-tab" class="tab-content">
+      <div class="scenario-panel">
+        <div class="scenario-header">
+          <div class="scenario-title-area">
+            <h2><span>💬</span> Dynamic Natural Language Command Studio</h2>
+            <p>Test the dynamic LLM Planner with Sparse Tool Loading (Selecting specific categories among 29+ tools to prevent token overflow).</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Enterprise Command Prompt (Arabic or English)</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="customPromptInput" class="form-input" style="flex:1;" placeholder="e.g. search web for AI automation developments in 2026 and save to summary.txt" value="search web for AI automation developments in 2026 and save to summary.txt">
+            <button class="btn-primary" onclick="runCustomPrompt()">
+              <span>⚡</span> Execute
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1.5rem;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" id="checkParallelExecution"> Enable Parallel Async Execution (asyncio.gather)
+          </label>
+        </div>
+
+        <div class="result-box" id="promptResultViewer" style="min-height:200px;">// Agent execution plan and output will be streamed here...</div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Deliverables Vault -->
+    <section id="artifacts-vault-tab" class="tab-content">
+      <div class="scenario-panel">
+        <div class="scenario-header">
+          <div class="scenario-title-area">
+            <h2><span>📂</span> Enterprise Deliverables & Artifacts Vault</h2>
+            <p>Direct download access to verified Excel workbooks, executive PDF dossiers, structured JSON, and data summaries.</p>
+          </div>
+          <button class="btn-secondary" onclick="refreshArtifacts()"><span>🔄</span> Refresh Vault</button>
+        </div>
+
+        <div class="vault-grid" id="vaultGridContainer">
+          <!-- Dynamic Vault Cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Dock: Live Terminal Telemetry -->
+    <div class="terminal-dock">
+      <div class="terminal-header">
+        <div class="terminal-title">
+          <span>⬛</span> LIVE MISSION CONTROL TELEMETRY
+        </div>
+        <div class="terminal-actions">
+          <button class="terminal-clear-btn" onclick="clearTerminal()">Clear</button>
+        </div>
+      </div>
+      <div class="terminal-body" id="terminalLogBody">
+        <div class="terminal-line">
+          <span class="term-time">[00:00:00]</span>
+          <span class="term-badge-ok">[SYS_INIT]</span>
+          <span class="term-msg">Ismail Smart Agent V2.1 online. 29 tools verified. Ready for enterprise execution.</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+# =============================================================================
+# Ismail Smart Agent V2.1 - Docker Compose Orchestration
+# =============================================================================
+
+version: "3.8"
+
+services:
+  # ---------------------------------------------------------------------------
+  # AI Agent API Server (FastAPI + DAG Engine + Dynamic Planner + Executor)
+  # ---------------------------------------------------------------------------
+  ai-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ismail-smart-agent
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_URL=http://ollama:11434/api/generate
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      - ./uploads:/app/uploads
+      - ./data:/app/data
+      - ./memory.json:/app/memory.json
+    depends_on:
+      ollama:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - agent-net
+
+  # ---------------------------------------------------------------------------
+  # Local LLM Engine (Ollama Container)
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: agent-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    networks:
+      - agent-net
+
+networks:
+  agent-net:
+    driver: bridge
+
+volumes:
+  ollama_models:
+    driver: local
